@@ -1,15 +1,12 @@
 package com.example.webviewtest
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
-import android.widget.TextView
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -23,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btPrev: Button
     private lateinit var btNext: Button
     private lateinit var viewContent: WebView
-
+    private lateinit var progress: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +34,15 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     when (state) {
-                        is MainViewModel.UIState.Loading -> {
+                        is MainViewModel.UIState.Empty -> {
                             viewModel.loadLink(MainViewModel.UIEvent.NONE)
                         }
+                        is MainViewModel.UIState.Loading -> {
+                            handleContentVisibility(false)
+                        }
                         is MainViewModel.UIState.Result -> {
-                            viewContent.loadUrl(state.url);
+                            handleContentVisibility(true)
+                            viewContent.loadUrl(state.url)
                         }
                     }
                 }
@@ -62,30 +63,30 @@ class MainActivity : AppCompatActivity() {
             viewModel.loadLink(MainViewModel.UIEvent.NEXT)
         }
         viewContent.webViewClient = object : WebViewClient() {
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                handleContentVisibility(false)
-            }
+
             override fun onPageFinished(view: WebView, url: String) {
-                handleContentVisibility(true)
+                btNext.visibility = View.VISIBLE
+                btPrev.visibility = View.VISIBLE
             }
         }
     }
 
     private fun handleContentVisibility(isContentVisible: Boolean = false) {
         if (isContentVisible) {
-            btPrev.visibility = View.VISIBLE
-            btNext.visibility = View.VISIBLE
+            viewContent.visibility = View.VISIBLE
+            progress.visibility = View.GONE
         } else {
-            btPrev.visibility = View.GONE
             btNext.visibility = View.GONE
+            btPrev.visibility = View.GONE
+            viewContent.visibility = View.GONE
+            progress.visibility = View.VISIBLE
         }
     }
-
 
     private fun initViews() {
         viewContent = findViewById(R.id.web_view_content)
         btPrev = findViewById(R.id.bt_prev)
         btNext = findViewById(R.id.bt_next)
+        progress = findViewById(R.id.progress)
     }
 }

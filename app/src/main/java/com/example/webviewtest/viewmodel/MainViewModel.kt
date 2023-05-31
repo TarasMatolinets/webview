@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
+    private val _uiState = MutableStateFlow<UIState>(UIState.Empty)
     val uiState: StateFlow<UIState> = _uiState.asStateFlow()
     private val linkArray = listOf(
         "https://www.amazon.com/-/de/dp/B07N3RFXRL/ref=pd_ci_mcx_mh_ci_mcx_mr_mp_m_0?pd_rd_w=C8JmI&content-id=amzn1.sym.07889413-fea5-4a13-b06c-d39edf4aa03e&pf_rd_p=07889413-fea5-4a13-b06c-d39edf4aa03e&pf_rd_r=49PVZJ7PQETKW6WJ8R3N&pd_rd_wg=I909t&pd_rd_r=74e6ce3d-f18f-4e84-b9a5-b9073478d5e0&pd_rd_i=B07N3RFXRL&th=1",
@@ -18,6 +18,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var linkCounter = 0
 
     fun loadLink(event: UIEvent) {
+        _uiState.value = UIState.Loading
+
         findLinkId(event)
         _uiState.value = UIState.Result(linkArray[linkCounter])
     }
@@ -45,6 +47,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     sealed class UIState {
+        object Empty : UIState()
         object Loading : UIState()
         data class Result(val url: String) : UIState()
     }
