@@ -75,10 +75,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleContentVisibility(isContentVisible: Boolean = false) {
         if (isContentVisible) {
             btPrev.visibility = View.VISIBLE
-            btPrev.visibility = View.VISIBLE
+            btNext.visibility = View.VISIBLE
         } else {
             btPrev.visibility = View.GONE
-            btPrev.visibility = View.GONE
+            btNext.visibility = View.GONE
         }
     }
 
@@ -86,6 +86,6 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         viewContent = findViewById(R.id.web_view_content)
         btPrev = findViewById(R.id.bt_prev)
-        btPrev = findViewById(R.id.bt_next)
+        btNext = findViewById(R.id.bt_next)
     }
 }

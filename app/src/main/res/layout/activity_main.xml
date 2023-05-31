@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
+        android:text="@string/prev"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/bt_next"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/margin_large"
+        android:text="@string/next"
         app:layout_constraintStart_toEndOf="@id/bt_prev"
         app:layout_constraintTop_toBottomOf="@id/web_view_content"
         tools:text="Next" />

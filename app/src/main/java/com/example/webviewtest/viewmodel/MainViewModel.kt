@@ -1,7 +1,6 @@
 package com.example.webviewtest.viewmodel
 
 import android.app.Application
-import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
